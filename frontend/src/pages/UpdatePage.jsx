@@ -17,7 +17,7 @@ function UpdatePage() {
   const location = useLocation();
   const product = location.state?.product; //Access the product data
   // end
-  console.log(product)
+  // console.log(product)
   const [ updatedProduct, setUpdatedProduct] = useState({
     name: product.name,
     price: product.price,

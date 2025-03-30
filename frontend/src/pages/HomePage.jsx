@@ -10,7 +10,7 @@ function HomePage() {
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
-  console.log("products", products)
+  // console.log("products", products)
 
 
   return (
