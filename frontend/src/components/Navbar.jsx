@@ -28,7 +28,7 @@ const Navbar = () => {
 					bgClip={"text"}
           color={"blue.500"}
 				>
-					<Link to={"/"}>Product Store 🛒</Link>
+					<Link to={"/"}>FlaBingo Store 🛒</Link>
 				</Text>
 
 				<HStack spacing={2} alignItems={"center"}>
