@@ -2,8 +2,6 @@ import express from "express";
 import dotenv from "dotenv";
 dotenv.config();
 import { connectDB } from "./config/db.js";
-import Product from "./models/product.model.js";
-import mongoose, { mongo } from "mongoose";
 import productRouter from "./routes/product.route.js";
  
 const app = express();
