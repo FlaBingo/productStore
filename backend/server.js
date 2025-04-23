@@ -14,7 +14,7 @@ const __dirname = path.resolve(); // For Production
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())  //allow us to accept JSON data in the req.body
 app.use("/api/products", productRoutes);
-app.use("api/auth", authRoutes)
+app.use("/api/auth", authRoutes)
 
 //For production/Deployment
 if(process.env.NODE_ENV === "production"){
@@ -26,5 +26,5 @@ if(process.env.NODE_ENV === "production"){
 
 app.listen(PORT, () => {
     connectDB(); 
-    console.log(`Server started at http://localhost:${PORT}`)
+    console.log(`Server started at http://localhost:${PORT}`) 
 }) 
