@@ -16,9 +16,17 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        minlength: 6
-    }
-});
+        minlength: 8
+    },
+    isVerified: {
+        type: Boolean,
+        default: false,
+    },
+    verificationToken: String,
+    verificationTokenExpiresAt: Date,
+    resetPasswordToken: String,
+    resetPasswordExpiresAt: Date,
+}, {timestamps: true});
 
 //Hash password before saving
 userSchema.pre("save" , async function(next){
