@@ -23,7 +23,7 @@ export const signup = async (req, res) => {
         const user = new User({
             name: name.trim(),
             email: email.trim(),
-            password: password.trim(),
+            password,
             verificationToken: verifyToken,
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000
         })
@@ -32,7 +32,14 @@ export const signup = async (req, res) => {
         await generateTokenSetCookie(res, user._id)
         await sendVerificationEmail(user.email, verifyToken);
 
-        res.status(201).json({success: true, message: "User created successfully"})
+        res.status(201).json({
+            success: true, 
+            message: "User created successfully",
+            user: {
+                ...user._doc,
+                password: undefined
+            }
+        })
     } catch (error) {
         console.log("Error in signup controller ", error.message)
         return res.status(400).json({ success: false, message: error.message })
@@ -73,8 +80,44 @@ export const verifyEmail = async (req, res) => {
     }
 }
 
-export const login = () => {
+export const login = async (req, res) => {
+    const { email, password } = req.body;
+    try {
+        if(!email || !password){
+            return res.json({success: false, message: "All fields are Required"})
+        }
+        if(password.length < 8){
+            return res.json({success: false, message: "Invalid email or password"})
+        }
+        
+        const user = await User.findOne({email})
+        if(!user){
+            return res.status(401).json({success:false, message: "Invalid email or password"})
+        }
+        //Use matchPassword method to compare passwords
+        const isPasswordCorrect = await user.matchPassword(password)
+        if(!isPasswordCorrect){
+            return res.status(401).json({success: false, message: "Invalid email or password"})
+        }
 
+        // generate token and set the cookie
+        generateTokenSetCookie(res, user._id)
+
+        res.status(200).json({
+            success: true,
+            message: "Logged in Successfully",
+            user: {
+                ...user._doc,
+                password: undefined
+            }
+        })
+    } catch (error) {
+        console.error("Error in login controller:", error.message);
+        res.status(500).json({ 
+            success: false, 
+            message: "Internal server error" 
+        });
+    }
 }
 
 export const logout = () => {
