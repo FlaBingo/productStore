@@ -1,6 +1,7 @@
 import User from "../models/user.model.js";
 import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import { sendVerificationEmail } from "../emails/nodemailer.js";
+import crypto from "crypto"
 
 export const signup = async (req, res) => {
     const {name, email, password} = req.body;
@@ -22,7 +23,7 @@ export const signup = async (req, res) => {
 
         const user = new User({
             name: name.trim(),
-            email: email.trim(),
+            email,
             password,
             verificationToken: verifyToken,
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000
@@ -130,5 +131,29 @@ export const logout = (req, res) => {
             success: false,
             message: "Internal server error"
         })
+    }
+}
+
+export const forgotPassword = async (req, res) => {
+    const { email } = req.body;
+    try {
+        const user = await User.findOne({email});
+        if(!user){
+            return res.status(400).json({success:true, message: "User not found"})
+        }
+
+        const resetToken = crypto.randomBytes(20).toString("hex");
+        const resetTokenExpiresAt = Date.now() + 60 * 60 * 1000;
+
+        user.resetPasswordToken = resetToken;
+        user.resetPasswordExpiresAt = resetTokenExpiresAt;
+        await user.save();
+
+        await sendPasswordResetEmail(email.trim(), `${process.env.CLIENT_URL}/reset-password/${resetToken}`)
+
+        res.status(200).json({success: true, message: "Password reset link send to your email."})
+    } catch (error) {
+        console.log("Error in forgot-password controller", error.message);
+        res.status(500).json({success:false, message: "Internal server error"});
     }
 }
