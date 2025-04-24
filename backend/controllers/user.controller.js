@@ -157,3 +157,29 @@ export const forgotPassword = async (req, res) => {
         res.status(500).json({success:false, message: "Internal server error"});
     }
 }
+
+export const resetPassword = async (req, res) => {
+    const {token} = req.params;
+    const {password} = req.body;
+    try {
+        const user = await User.findOne({
+            resetPasswordToken: token,
+            resetPasswordExpiresAt: { $gt: Date.now()}
+        })
+        if(!user){
+            return res.status(400).json({success: false, message: "Invalid or Expired reset token"})
+        }
+
+        user.password = password
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpiresAt = undefined;
+
+        await user.save();
+
+        res.status(200).json({ success: true, message: "Password reset successful" })
+
+    } catch (error) {
+        console.error("Error in resetPassword controller", error)
+        res.status(500).json({ success: false, message: "Server Error" })
+    }
+}
