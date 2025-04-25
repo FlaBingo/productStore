@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import './App.css'
 import { Box, Button } from '@chakra-ui/react'
 import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/Navbar'
@@ -10,7 +9,7 @@ import { Toaster } from './components/ui/toaster.jsx';
 import UpdatePage from './pages/UpdatePage'
 
 function App() {
-  // const [count, setCount] = useState(0)
+  
 
   return (
     <>

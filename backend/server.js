@@ -5,12 +5,18 @@ import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.route.js";
 import authRoutes from "./routes/user.route.js"
 import path from "path";
- 
+import cookieParser from "cookie-parser";
+import cors from "cors" 
 
 const app = express();
 const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve(); // For Production
+app.use(cors({
+    origin: true, // Allow all origins when testing with Postman
+    credentials: true
+}));
+app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())  //allow us to accept JSON data in the req.body
 app.use("/api/products", productRoutes);
