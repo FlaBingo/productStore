@@ -1,49 +1,40 @@
 import { create } from "zustand";
+import axios from "axios";
+import axiosInstance from "../utils/axiosInstance.js";
+import { animate } from "framer-motion";
 
 export const useProductStore = create((set) => ({
     products: [],
+
     setProducts: (products) => set({products}),
+
     createProduct: async (newProduct) => {
         if(!newProduct.name || !newProduct.price || !newProduct.image){
-            return {success: false, message: "Please fill in all fields."}
+            return {success: false, message: "Please fill in required fields."}
         }
-        const res = await fetch("/api/products", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(newProduct)
-        })
-        const data = await res.json();
+        
+        const data = await axiosInstance.post("/products", newProduct)
         set((state) => ({products: [...state.products, data.data]}))
 
         return {success:true, message: "Product created successfully"}
     },
+
     fetchProducts: async () =>{
-        const res = await fetch("/api/products");
-        const data = await res.json();
+        const data = await axiosInstance.get("/products");
         set({products: data.data});
     },
+
     deleteProducts: async (pid) => {
-        const res = await fetch(`/api/products/${pid}`, {
-			method: "DELETE",
-		});
-		const data = await res.json();
+		const data = await axiosInstance.delete(`/products/${pid}`)
 		if (!data.success) return { success: false, message: data.message };
 
 		// update the ui immediately, without needing a refresh
 		set((state) => ({ products: state.products.filter((product) => product._id !== pid) }));
 		return { success: true, message: data.message };
     },
+
     updateProduct: async (pid, updatedProduct) => {
-        const res = await fetch(`/api/products/${pid}`, {
-            method: "PUT",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(updatedProduct),
-        })
-        const data = await res.json();
+        const data = await axiosInstance.put(`/products/${pid}`, updatedProduct)
         if(!data.success) return {success: false, message: data.message}
         set(state => ({
             products: state.products.map(product => product._id === pid ? data.data : product)
