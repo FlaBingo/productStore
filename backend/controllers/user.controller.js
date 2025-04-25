@@ -1,29 +1,31 @@
 import User from "../models/user.model.js";
 import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
-import { sendVerificationEmail } from "../emails/nodemailer.js";
+import { sendPasswordResetEmail, sendVerificationEmail } from "../emails/nodemailer.js";
 import crypto from "crypto"
+import { sendError, sendSuccess } from "../utils/handleResponses.js";
+
 
 export const signup = async (req, res) => {
     const {name, email, password} = req.body;
     try {
-        if(!name || !email || !password){
-            return res.json({success: false, message: "All fields are required"})
+        if(!name?.trim() || !email?.trim() || !password){
+            return sendError(res, 400, "All fields are required")
         }
 
         if(password.length < 8){
-            return res.json({success: false, message: "password should be atleast 8 character long"})
+            return sendError(res, 400, "password should be atleast 8 character long")
         }
 
         const existingUser = await User.findOne({email})
         if(existingUser){
-            return res.json({success:false, message: "User already exists"})
+            return sendError(res, 409, "User already exists")
         }
 
         const verifyToken = Math.floor(100000 + Math.random() * 900000).toString();
 
         const user = new User({
             name: name.trim(),
-            email,
+            email: email.lowercase(),
             password,
             verificationToken: verifyToken,
             verificationTokenExpiresAt: Date.now() + 24 * 60 * 60 * 1000
@@ -33,17 +35,14 @@ export const signup = async (req, res) => {
         await generateTokenSetCookie(res, user._id)
         await sendVerificationEmail(user.email, verifyToken);
 
-        res.status(201).json({
-            success: true, 
-            message: "User created successfully",
-            user: {
-                ...user._doc,
-                password: undefined
-            }
-        })
+        const userData = {
+            ...user._doc,
+            password: undefined
+        }
+        return sendSuccess(res, 201, "User created successfully")
     } catch (error) {
         console.log("Error in signup controller ", error.message)
-        return res.status(400).json({ success: false, message: error.message })
+        return sendError(res, 500, "Internal Server Error")
     }
 }
 
@@ -51,14 +50,14 @@ export const verifyEmail = async (req, res) => {
     const { otp } = req.body
     try {
         if(otp.length !== 6){
-            return res.json({success: false, message: "Invalid OTP"})
+            return sendError(res, 400, "Invalid OTP")
         }
         const user = await User.findOne({
             verificationToken: otp,
             verificationTokenExpiresAt: { $gt: Date.now()}
         })
         if(!user){
-            return res.json({success: false, message: "Invalid OR Expired OTP"})
+            return sendError(res, 404, "Invalide or Expired OTP")
         }
 
         user.isVerified = true;
@@ -67,17 +66,21 @@ export const verifyEmail = async (req, res) => {
 
         await user.save()
 
-        res.status(200).json({
-            success: true,
-            message: "Email Verified Successfully",
-            user: {
-                ...user._doc,
-                password: undefined
-            }
+        // res.status(200).json({
+        //     success: true,
+        //     message: "Email Verified Successfully",
+        //     user: {
+        //         ...user._doc,
+        //         password: undefined
+        //     }
+        // })
+        return sendSuccess(res, 200, "Email Verified Successfully", {
+            ...user._doc,
+            password: undefined
         })
     } catch (error) {
         console.log("Error in verifyEmail controller ", error.message)
-        return res.status(400).json({ success: false, message: error.message })
+        return sendError(res, 500, "Internal Server Error")
     }
 }
 
@@ -139,7 +142,7 @@ export const forgotPassword = async (req, res) => {
     try {
         const user = await User.findOne({email});
         if(!user){
-            return res.status(400).json({success:true, message: "User not found"})
+            return res.status(400).json({success:false, message: "User not found"})
         }
 
         const resetToken = crypto.randomBytes(20).toString("hex");
@@ -151,7 +154,7 @@ export const forgotPassword = async (req, res) => {
 
         await sendPasswordResetEmail(email.trim(), `${process.env.CLIENT_URL}/reset-password/${resetToken}`)
 
-        res.status(200).json({success: true, message: "Password reset link send to your email."})
+        return sendSuccess(res, 200, "Password reset Link sent to your email")
     } catch (error) {
         console.log("Error in forgot-password controller", error.message);
         res.status(500).json({success:false, message: "Internal server error"});
@@ -176,10 +179,10 @@ export const resetPassword = async (req, res) => {
 
         await user.save();
 
-        res.status(200).json({ success: true, message: "Password reset successful" })
-
+        return sendSuccess(res, 200, "Password Reset Successfully")
     } catch (error) {
-        console.error("Error in resetPassword controller", error)
+        console.error("Error in resetPassword controller", error.message
+        )
         res.status(500).json({ success: false, message: "Server Error" })
     }
 }

@@ -1,4 +1,5 @@
 import jwt from "jsonwebtoken"
+import { sendError } from "../utils/handleResponses.js"
 
 export const verifyToken = async (req, res, next) => {
     try {
@@ -15,7 +16,14 @@ export const verifyToken = async (req, res, next) => {
 
         next();
     } catch (error) {
+        if(error instanceof jwt.JsonWebTokenError){
+            return sendError(res, 401, "Unauthorized - Invalid token")
+        }
+        if(error instanceof jwt.TokenExpiredError){
+            return sendError(res, 401, "Unauthorized - Token Expired")
+        }
+
         console.error("Error in verifyToken", error.message)
-        return res.status(500).json({success: false, message: "Internal Server Error"})
+        return sendError(res, 500, "Internal Server Error")
     }
 }

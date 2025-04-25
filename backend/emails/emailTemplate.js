@@ -143,7 +143,7 @@ export const RESET_PASSWORD_TEMPLATE = `
             display: inline-block;
             padding: 14px 28px;
             background: linear-gradient(135deg, #3498db, #2c3e50);
-            color: white !important;
+            color: white;
             text-decoration: none;
             border-radius: 50px;
             font-weight: 500;
@@ -184,7 +184,7 @@ export const RESET_PASSWORD_TEMPLATE = `
             
             <p>We received a request to reset the password for your account associated with <span class="highlight">{email}</span>.</p>
             
-            <div style="text-align: center;">
+            <div style="text-align: center; color: white;">
                 <a href="{resetLink}" class="reset-button">Reset Password</a>
             </div>
             
