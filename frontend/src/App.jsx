@@ -16,14 +16,16 @@ import LandingPage from './pages/LandingPage'
 import SignUpPage from './pages/SignupPage'
 import LoginPage from './pages/LoginPage'
 import VerifyEmail from './pages/VerifyEmail'
+import HowItWorksPage from './pages/HowItWorksPage'
+import Footer from './components/Footer'
 
 
-const ProtectedRoute =  ({children}) => {
-  const {isAuthenticated, user} = useAuthStore();
-  if(!isAuthenticated){
-    return <Navigate to="/login" replace/>;
+const ProtectedRoute = ({ children }) => {
+  const { isAuthenticated, user } = useAuthStore();
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />;
   }
-  if(user && !user.isVerified) return <Navigate to="verify-email" replace />;
+  if (user && !user.isVerified) return <Navigate to="verify-email" replace />;
   return children;
 }
 
@@ -32,35 +34,37 @@ const ProtectedRoute =  ({children}) => {
 
 function App() {
 
-  const {user, checkAuth, isCheckingAuth} = useAuthStore();
-  
+  const { user, checkAuth, isCheckingAuth } = useAuthStore();
+  console.log(user)
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
 
-  if(isCheckingAuth) return <div style={{
+  if (isCheckingAuth) return <div style={{
     height: "100vh",
     display: "flex",
     justifyContent: "center", alignItems: "center"
   }}>
     <Loader size={30} />
-  </div> 
+  </div>
 
   return (
     <>
       <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
         {user && <Navbar />}
         <Routes>
-          <Route path='/' element={user ? <HomePage/> : <LandingPage />} />
-          <Route path='/signup' element={!user ? <SignUpPage />: <Navigate to="/"/>}/>
-          <Route path='/login' element={!user ? <LoginPage />: <Navigate to="/"/>}/>
-          <Route path='/verify-email' element={<VerifyEmail />}/>
-          <Route path='/create' element={user ? <CreatePage /> : <Navigate to='/'/>} />
-          <Route path='/update' element={user ? <UpdatePage /> : <Navigate to='/'/>} />
-          <Route path='*' element={<Navigate to='/' replace/> }/>
+          <Route path='/' element={user ? <HomePage replace /> : <LandingPage replace />} />
+          <Route path='/signup' element={!user ? <SignUpPage replace /> : <Navigate to="/" replace />} />
+          <Route path='/login' element={!user ? <LoginPage replace /> : <Navigate to="/" replace />} />
+          <Route path='/how-it-works' element={!user ? <HowItWorksPage replace/> : <Navigate to="/" replace />} />
+          <Route path='/verify-email' element={!user?.isVerified ? <VerifyEmail replace /> : <Navigate to='/' replace />} />
+          <Route path='/create' element={user?.isVerified ? <CreatePage replace /> : <Navigate to='/' replace />} />
+          <Route path='/update' element={user?.isVerified ? <UpdatePage replace /> : <Navigate to='/' replace />} />
+          <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
       </Box>
-      <Toaster/>
+      {user && <Footer />}
+      <Toaster />
       <Bread />
     </>
   )

@@ -4,6 +4,7 @@ import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Toaster } from "../components/ui/toaster";
 import ProductCard from "../components/ProductCard";
+import { ShoppingCart } from "lucide-react";
 
 function HomePage() {
   const {fetchProducts, products} = useProductStore();
@@ -17,14 +18,10 @@ function HomePage() {
     <Container maxW="container.xl" py={12}>
       <VStack spacing={8}>
         <Text
-          style={{fontSize: "30px"}}
-          fontSize={"30"}
-          fontWeight={"bold"}
-          // bgGradient={"linear(to-r, cyan.400, blue.500)"}
-          // bgClip={"text"}
+          style={{fontSize: "25px"}}
           textAlign={"center"}
         >
-          Current Products 🚀
+          Current Products <ShoppingCart style={{display: "inline"}}/>
         </Text>
 
         <SimpleGrid

@@ -10,6 +10,8 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { toaster } from "./ui/toaster";
+import {formatDate} from "../utils/formatDate.js"
+import { IndianRupee, Pencil, RefreshCw, Trash2 } from "lucide-react";
 
 function ProductCard({ product }) {
   const { deleteProducts, fetchProducts } = useProductStore();
@@ -41,33 +43,41 @@ function ProductCard({ product }) {
       overflow="hidden"
       transition="all 0.3s"
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
-      //   bg={bg}
+    //   bg={bg}
     >
       <a href={product.purchaseLink} target="_blank">
         <Image
           src={product.image}
           alt={product.name}
-          h={48}
+          h="230px"
           w="full"
           objectFit="cover"
-          />
+        />
       </a>
 
-      <Box p={4}>
+      <Box p={4} >
         <HStack className="flex justify-between">
           <div>
-            <Heading as="h3" size="lg" mb={2}>
+            <Heading as="h3" size="lg" fontWeight={"bold"} mb={2}>
               {product.name}
             </Heading>
 
-            <Text fontWeight="bold" fontSize="xl" mb={4}>
-              Rs.{product.price}
+            <Text fontWeight="bold" fontSize="xl" mb={4} >
+            <IndianRupee size={18} style={{display: "inline"}} />{product.price}
             </Text>
 
             <p className="description">{product.description}</p>
           </div>
         </HStack>
         <br />
+        <hr style={{
+          width: "100%",
+          marginBottom: "20px",
+          borderBottom: "1px solid #6a7282",
+          borderRadius: "4px",
+          opacity: "0.5"
+        }} />
+        <div className="flex justify-between">
           <div>
             <button
               style={{
@@ -77,9 +87,9 @@ function ProductCard({ product }) {
                 margin: "5px"
               }}
               className="cursor-pointer"
-              onClick={() => navigate("/update", {state: { product }})}
+              onClick={() => navigate("/update", { state: { product } })}
             >
-              Update
+              <Pencil />
             </button>
             <button
               style={{
@@ -91,9 +101,14 @@ function ProductCard({ product }) {
               className="cursor-pointer"
               onClick={() => handleDeleteProduct(product._id)}
             >
-              Delete
+              <Trash2 />
             </button>
           </div>
+          <div className="timeDetail flex flex-col text-sm text-gray-500">
+            <span>Created: {formatDate(product.createdAt)}</span>
+            <span>Updated: {formatDate(product.updatedAt)}</span>
+          </div>
+        </div>
       </Box>
     </Box>
   );
