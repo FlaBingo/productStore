@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import howitworks from "../assets/howitworks.png"
+import howitworks2 from "../assets/howitworks2.png"
 
 const HowItWorksPage = () => {
   // Custom CSS styles
@@ -506,7 +508,7 @@ const HowItWorksPage = () => {
             </div>
             <div style={styles.stepImage}>
               <img 
-                src="/api/placeholder/500/350" 
+                src="https://images.yourstory.com/cs/1/ecb6f7c0-c89f-11e9-8d3c-8385efb8d0a0/Online_Store1566908316631.jpg?mode=crop&crop=faces&ar=16%3A9&format=auto&w=1920&q=75" 
                 alt="Browsing products online" 
                 style={{width: '100%', height: 'auto'}}
               />
@@ -567,7 +569,7 @@ const HowItWorksPage = () => {
             </div>
             <div style={styles.stepImage}>
               <img 
-                src="/api/placeholder/500/350" 
+                src={howitworks}
                 alt="Saving product details" 
                 style={{width: '100%', height: 'auto'}}
               />
@@ -628,7 +630,7 @@ const HowItWorksPage = () => {
             </div>
             <div style={styles.stepImage}>
               <img 
-                src="/api/placeholder/500/350" 
+                src={howitworks2}
                 alt="Making a purchase" 
                 style={{width: '100%', height: 'auto'}}
               />

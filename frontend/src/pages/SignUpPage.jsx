@@ -20,7 +20,7 @@ const SignupPage = () => {
             // console.log(name, email, password)
             const success = await signup(name, email, password);
             if (success) {
-                navigate("/verify-email")
+                navigate("/verify-email", {replace: true})
                 toast.success(message)
             }
         } catch (error) {
@@ -53,7 +53,7 @@ const SignupPage = () => {
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                                     style={{ marginLeft: "10px", padding: "5px 7px" }}
                                     placeholder="John"
-                                    required
+                                    // required
                                     value={name}
                                     onChange={(e) => setName(e.target.value)}
                                 />
@@ -69,7 +69,8 @@ const SignupPage = () => {
                                     type="email" id='email'
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                                     style={{ marginLeft: "10px", padding: "5px 7px" }}
-                                    placeholder="john@example.com" required
+                                    placeholder="john@example.com" 
+                                    // required
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                 />
@@ -84,7 +85,8 @@ const SignupPage = () => {
                                     type="password" id='password'
                                     className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                                     style={{ marginLeft: "10px", padding: "5px 7px" }}
-                                    placeholder="••••••••" required
+                                    placeholder="••••••••" 
+                                    // required
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />

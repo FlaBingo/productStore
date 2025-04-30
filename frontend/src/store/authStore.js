@@ -4,6 +4,7 @@ import axiosInstance from "../utils/axiosInstance.js";
 export const useAuthStore = create((set) => ({
     user: null,
     isAuthenticated: false,
+    error: null,
     message: null,
     isLoading: false,
     isCheckingAuth: false,
@@ -14,7 +15,6 @@ export const useAuthStore = create((set) => ({
             const res = await axiosInstance.post('/auth/signup', {
                 name, email, password
             })
-            console.log(res)
             if(!res.data.success){
                 set({ isLoading: false, message: res.data.message})
                 return false;
@@ -96,6 +96,7 @@ export const useAuthStore = create((set) => ({
                 isLoading: false,
                 message: error.response.data?.message
             })
+            return false;
         }
     },
     checkAuth: async () => {
@@ -110,7 +111,50 @@ export const useAuthStore = create((set) => ({
             })
 
         } catch (error) {
-            set({ user: null, isCheckingAuth: false, isAuthenticated: false, message: error.response?.data?.message || "Authentication check failed" })
+            set({ user: null, isCheckingAuth: false, isAuthenticated: false, error: error.response?.data?.message || "Authentication check failed" })
         }
     },
+    forgotPassword: async (email) => {
+        set({ isLoading: true, message: null});
+        try {
+            const res = await axiosInstance.post("/auth/forgot-password", {email})
+            if(res.data.success){
+                set({
+                    isLoading: false,
+                    message: res.data.message,
+                })
+                return true;
+            }
+            set({
+                isLoading: false,
+                message: res.data.message,
+            })
+            return false;
+        } catch (error) {
+            set({message: error.response?.data?.message || "Error in forgotPassword store", isLoading:false})
+            return false;
+        }
+    },
+    resetPassword: async (token, password) => {
+        set({ isLoading: true, message: null});
+        try {
+            const res = await axiosInstance.post(`auth/reset-password/${token}`, {password})
+            if(res.data.success){
+                set({
+                    isLoading:false,
+                    message: res.data.message,
+                })
+                return true
+            }
+            set({
+                isLoading:false,
+                message: res.data.message,
+            })
+            return false
+        } catch (error) {
+            console.log(error.message)
+            set({isLoading: false, error:  error.res.data.message || "Error reseting password"})
+            return false
+        }
+    }
 }))

@@ -19,7 +19,7 @@ const LoginPage = () => {
       if(success){
         toast.success("Logged In Successfully")
         window.location.reload();
-        navigate("/")
+        navigate('/', {replace: true});
       }
     } catch (error) {
       console.log("Error in LoginPage", error.message)
@@ -52,7 +52,8 @@ const LoginPage = () => {
                   type="email" id='email'
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                   style={{marginLeft: "10px", padding: "5px 7px"}}
-                  placeholder="john@example.com" required
+                  placeholder="john@example.com" 
+                  // required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
@@ -67,7 +68,8 @@ const LoginPage = () => {
                   type="password" id='password'
                   className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                   style={{marginLeft: "10px", padding: "5px 7px"}}
-                  placeholder="••••••••" required
+                  placeholder="••••••••" 
+                  // required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
@@ -76,19 +78,11 @@ const LoginPage = () => {
           </div>
           <br />
 
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              id="terms"
-              className="w-4 h-4 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500"
-            />
-            <label htmlFor="terms" style={{marginLeft: "7px"}} className="ml-2 text-sm text-gray-600">
-              I agree to the{' '}
-              <a href="#" className="text-indigo-600 hover:underline">
-                Terms of Service
-              </a>
-            </label>
+          <Link to={"/forgot-password"}>
+          <div className="flex items-center underline cursor-pointer">
+            forgot password?
           </div>
+          </Link>
           <div
           style={{
             display:"flex",

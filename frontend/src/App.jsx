@@ -18,6 +18,8 @@ import LoginPage from './pages/LoginPage'
 import VerifyEmail from './pages/VerifyEmail'
 import HowItWorksPage from './pages/HowItWorksPage'
 import Footer from './components/Footer'
+import ForgotPassword from './pages/ForgotPassword'
+import ResetPassword from './pages/ResetPassword'
 
 
 const ProtectedRoute = ({ children }) => {
@@ -32,10 +34,10 @@ const ProtectedRoute = ({ children }) => {
 
 
 
+
 function App() {
 
   const { user, checkAuth, isCheckingAuth } = useAuthStore();
-  console.log(user)
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
@@ -51,11 +53,13 @@ function App() {
   return (
     <>
       <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
-        {user && <Navbar />}
+        {user?.isVerified && <Navbar />}
         <Routes>
-          <Route path='/' element={user ? <HomePage replace /> : <LandingPage replace />} />
+          <Route path='/' element={user?.isVerified ? <HomePage replace /> : <LandingPage replace />} />
           <Route path='/signup' element={!user ? <SignUpPage replace /> : <Navigate to="/" replace />} />
           <Route path='/login' element={!user ? <LoginPage replace /> : <Navigate to="/" replace />} />
+          <Route path='/forgot-password' element={!user ? <ForgotPassword replace /> : <Navigate to="/" replace />} />
+          <Route path='/reset-password/:token' element={!user ? <ResetPassword replace /> : <Navigate to="/" replace />} />
           <Route path='/how-it-works' element={!user ? <HowItWorksPage replace/> : <Navigate to="/" replace />} />
           <Route path='/verify-email' element={!user?.isVerified ? <VerifyEmail replace /> : <Navigate to='/' replace />} />
           <Route path='/create' element={user?.isVerified ? <CreatePage replace /> : <Navigate to='/' replace />} />
@@ -63,7 +67,7 @@ function App() {
           <Route path='*' element={<Navigate to='/' replace />} />
         </Routes>
       </Box>
-      {user && <Footer />}
+      {user?.isVerified && <Footer />}
       <Toaster />
       <Bread />
     </>

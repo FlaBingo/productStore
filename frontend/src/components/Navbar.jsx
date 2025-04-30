@@ -17,7 +17,7 @@ const Navbar = () => {
 		const success = await logout();
 		if(success){
 			toast.success("Logged Out Successfully")
-			navigate("/")
+			navigate('/', {replace: true});
 		}
 		else{
 			toast.error(message)

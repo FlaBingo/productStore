@@ -49,7 +49,9 @@ function UpdatePage() {
   return (
     <Container maxW={"container.sm"}>
       <VStack spacing={8}>
-        <Heading as={"h1"} size={"2xl"} textAlign={"center"} mb={8}>
+        <Heading as={"h1"} size={"2xl"} style={{
+          marginTop: "50px"
+        }} textAlign={"center"} mb={8}>
           Update the Product
         </Heading>
 

@@ -2,7 +2,7 @@ import { Loader, Lock, Mail } from 'lucide-react';
 import { useAuthStore } from '../store/authStore';
 import React, { useState } from 'react'
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { replace, useNavigate } from 'react-router-dom';
 
 const VerifyEmail = () => {
 
@@ -16,7 +16,7 @@ const VerifyEmail = () => {
       const success = await verifyEmail(otp);
       if(success){
         toast.success("Email Verified Successfully")
-        navigate('/');
+        navigate('/', {replace: ture});
       }
     } catch (error) {
       toast.error(error.message)
