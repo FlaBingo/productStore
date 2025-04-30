@@ -22,6 +22,8 @@ function UpdatePage() {
     name: product.name,
     price: product.price,
     image: product.image,
+    description: product.description,
+    purchaseLink: product.purchaseLink,
   });
 
   const { updateProduct } = useProductStore();
@@ -68,6 +70,15 @@ function UpdatePage() {
               }
             />
             <Input
+              placeholder="Description"
+              name="description"
+              type="textarea"
+              value={updatedProduct.description}
+              onChange={(e) =>
+                setUpdatedProduct({ ...updatedProduct, description: e.target.value })
+              }
+            />
+            <Input
               placeholder="Price"
               name="price"
               type="number"
@@ -82,6 +93,14 @@ function UpdatePage() {
               value={updatedProduct.image}
               onChange={(e) =>
                 setUpdatedProduct({ ...updatedProduct, image: e.target.value })
+              }
+            />
+            <Input
+              placeholder="Purchase Link"
+              name="purchaseLink"
+              value={updatedProduct.purchaseLink}
+              onChange={(e) =>
+                setUpdatedProduct({ ...updatedProduct, purchaseLink: e.target.value })
               }
             />
 

@@ -12,7 +12,7 @@ import React from "react";
 import { toaster } from "./ui/toaster";
 
 function ProductCard({ product }) {
-  const { deleteProducts } = useProductStore();
+  const { deleteProducts, fetchProducts } = useProductStore();
   const navigate = useNavigate();
 
   const handleDeleteProduct = async (pid) => {
@@ -30,6 +30,7 @@ function ProductCard({ product }) {
         duration: 2000,
       });
     }
+    fetchProducts();
   };
 
   return (
@@ -42,25 +43,31 @@ function ProductCard({ product }) {
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
       //   bg={bg}
     >
-      <Image
-        src={product.image}
-        alt={product.name}
-        h={48}
-        w="full"
-        objectFit="cover"
-      />
+      <a href={product.purchaseLink} target="_blank">
+        <Image
+          src={product.image}
+          alt={product.name}
+          h={48}
+          w="full"
+          objectFit="cover"
+          />
+      </a>
 
       <Box p={4}>
         <HStack className="flex justify-between">
           <div>
-            <Heading as="h3" size="md" mb={2}>
+            <Heading as="h3" size="lg" mb={2}>
               {product.name}
             </Heading>
 
             <Text fontWeight="bold" fontSize="xl" mb={4}>
-              ${product.price}
+              Rs.{product.price}
             </Text>
+
+            <p className="description">{product.description}</p>
           </div>
+        </HStack>
+        <br />
           <div>
             <button
               style={{
@@ -87,7 +94,6 @@ function ProductCard({ product }) {
               Delete
             </button>
           </div>
-        </HStack>
       </Box>
     </Box>
   );

@@ -4,3 +4,9 @@
   background-color: #51a2ff; /* Change this to your desired color */
   color: white; /* Optional: Change the text color */
 }
+
+
+.description{
+  padding-left: 7px;
+  border-left: 5px solid #51a2ff;
+}
