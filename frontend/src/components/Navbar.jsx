@@ -27,7 +27,11 @@ const Navbar = () => {
 	return (
 		<Container maxW={"1140px"} px={4} borderBottom={'1px solid #6a7282'}>
 			<Flex
-				h={16}
+				
+				minH={{
+					base: 20,
+					sm: 16
+				}}
 				alignItems={"center"}
 				justifyContent={"space-between"}
 				flexDir={{
@@ -36,6 +40,10 @@ const Navbar = () => {
 				}}
 			>
 				<Text
+					p={{
+						base: 4,
+						sm: 1
+					}}
 					fontSize={{ base: "22", sm: "28" }}
 					fontWeight={"bold"}
 					textAlign={"center"}
@@ -44,7 +52,11 @@ const Navbar = () => {
 					<Link to={"/"} id="logo">{user.name.split(" ")[0] || "FlaBingo"}'s Store 🛒</Link>
 				</Text>
 
-				<HStack spacing={2} alignItems={"center"}>
+				<HStack paddingBottom={{
+					base: 4,
+					sm: 1
+				}}
+				spacing={2} alignItems={"center"}>
 					<Link to={"/create"}>
 						<Button>
 						<PackagePlus />

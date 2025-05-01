@@ -1,8 +1,8 @@
 @import "tailwindcss";
 
 ::selection {
-  background-color: #51a2ff; /* Change this to your desired color */
-  color: white; /* Optional: Change the text color */
+  background-color: #51a2ff;
+  color: white;
 }
 
 .description{
@@ -11,3 +11,21 @@
 .timeDetail{
   font-size: small;
 }
+
+.my-masonry-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  width: auto;
+  gap: 30px;
+}
+
+.my-masonry-grid_column {
+  background-clip: padding-box;
+}
+
+.my-masonry-grid_column > div {
+  margin-bottom: 20px;
+}
+
+
