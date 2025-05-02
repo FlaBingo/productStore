@@ -2,7 +2,6 @@ import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import tailwindcss from "@tailwindcss/vite";
 import { nodePolyfills } from "vite-plugin-node-polyfills";
-// import { ESLint } from "eslint";
 
 export default defineConfig({
   plugins: [
@@ -28,14 +27,16 @@ export default defineConfig({
   build: {
     commonjsOptions: {
       exclude: [/eslint/, /file-entry-cache/]
-    }
+    },
+    outDir: "dist",
+    sourcemap: false
   },
   server: {
     proxy: {
       "/api": {
-        target: "http://localhost:5000",
+        target: process.env.CLIENT_URL || "http://localhost:5000",
         changeOrigin: true,
-        secure: false,
+        secure: process.env.NODE_ENV === "production",
         ws: true,
         configure: (proxy) => {
           proxy.on("error", (err) => console.log("proxy error", err));
