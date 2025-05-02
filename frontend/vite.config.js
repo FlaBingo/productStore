@@ -34,7 +34,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: process.env.VITE_API_URL || "http://localhost:5000",
+        target: process.env.CLIENT_URL || "http://localhost:5000",
         changeOrigin: true,
         secure: process.env.NODE_ENV === "production",
         ws: true,
