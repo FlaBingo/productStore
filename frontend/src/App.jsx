@@ -13,7 +13,7 @@ import { Loader } from 'lucide-react'
 
 import UpdatePage from './pages/UpdatePage.jsx'
 import LandingPage from './pages/LandingPage.jsx'
-import SignUpPage from './pages/SignupPage.jsx'
+import SignUpPage from './pages/SignUpPage.jsx'
 import LoginPage from './pages/LoginPage.jsx'
 import VerifyEmail from './pages/VerifyEmail.jsx'
 import HowItWorksPage from './pages/HowItWorksPage.jsx'
