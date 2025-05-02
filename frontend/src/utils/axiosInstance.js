@@ -1,6 +1,8 @@
 import axios from "axios";
 
-const baseURL = process.env.NODE_ENV === "production" ? process.env.VITE_API_URL : "http://localhost:5000/api";
+const baseURL = import.meta.env.PROD 
+  ? "https://product-store-kappa-tawny.vercel.app/api"
+  : "http://localhost:5000/api";
 
 const axiosInstance = axios.create({
     baseURL,
@@ -8,6 +10,6 @@ const axiosInstance = axios.create({
     headers: {
         "Content-Type": "application/json"
     }
-})
+});
 
 export default axiosInstance;
