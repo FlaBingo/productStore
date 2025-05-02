@@ -34,7 +34,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "https://product-store-kappa-tawny.vercel.app",
+        target: process.env.VITE_API_URL || "http://localhost:5000",
         changeOrigin: true,
         secure: process.env.NODE_ENV === "production",
         ws: true,
