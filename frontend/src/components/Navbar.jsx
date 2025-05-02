@@ -58,15 +58,15 @@ const Navbar = () => {
 				}}
 				spacing={2} alignItems={"center"}>
 					<Link to={"/create"}>
-						<Button>
+						<Button title="Create">
 						<PackagePlus />
 							{/* <PlusSquareIcon fontSize={20} /> */}
 						</Button>
 					</Link>
-					<Button onClick={toggleColorMode}>
+					<Button title="Theme" onClick={toggleColorMode}>
 						{colorMode === "light" ? <Moon /> : <Sun />}
 					</Button>
-					<Button onClick={handleLogout}>
+					<Button title="LogOut" onClick={handleLogout}>
 					<LogOut />
 					</Button>
 				</HStack>

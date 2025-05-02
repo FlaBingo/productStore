@@ -58,8 +58,8 @@ const VerifyEmail = () => {
               <Lock size={30} />
               <input
                 type="number" id='otp'
-                min={100000}
-                max={999999}
+                // min={100000}
+                // max={999999}
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition"
                 style={{ marginLeft: "10px", padding: "5px 7px" }}
                 placeholder="Enter your otp" required

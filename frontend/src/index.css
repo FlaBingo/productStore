@@ -4,6 +4,9 @@
   background-color: #51a2ff;
   color: white;
 }
+html{
+  scroll-behavior: smooth;
+}
 
 .description{
   font-size: .9em;

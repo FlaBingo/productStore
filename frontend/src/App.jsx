@@ -22,19 +22,6 @@ import ForgotPassword from './pages/ForgotPassword'
 import ResetPassword from './pages/ResetPassword'
 
 
-const ProtectedRoute = ({ children }) => {
-  const { isAuthenticated, user } = useAuthStore();
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  if (user && !user.isVerified) return <Navigate to="verify-email" replace />;
-  return children;
-}
-
-
-
-
-
 function App() {
 
   const { user, checkAuth, isCheckingAuth } = useAuthStore();
@@ -42,29 +29,39 @@ function App() {
     checkAuth();
   }, [checkAuth]);
 
-  if (isCheckingAuth) return <div style={{
+  if (isCheckingAuth) return (<div style={{
     height: "100vh",
     display: "flex",
     justifyContent: "center", alignItems: "center"
   }}>
     <Loader size={30} />
-  </div>
+  </div>)
 
   return (
     <>
       <Box minH={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
         {user?.isVerified && <Navbar />}
         <Routes>
-          <Route path='/' element={user?.isVerified ? <HomePage replace /> : <LandingPage replace />} />
-          <Route path='/signup' element={!user ? <SignUpPage replace /> : <Navigate to="/" replace />} />
-          <Route path='/login' element={!user ? <LoginPage replace /> : <Navigate to="/" replace />} />
-          <Route path='/forgot-password' element={!user ? <ForgotPassword replace /> : <Navigate to="/" replace />} />
-          <Route path='/reset-password/:token' element={!user ? <ResetPassword replace /> : <Navigate to="/" replace />} />
-          <Route path='/how-it-works' element={!user ? <HowItWorksPage replace/> : <Navigate to="/" replace />} />
-          <Route path='/verify-email' element={!user?.isVerified ? <VerifyEmail replace /> : <Navigate to='/' replace />} />
-          <Route path='/create' element={user?.isVerified ? <CreatePage replace /> : <Navigate to='/' replace />} />
-          <Route path='/update' element={user?.isVerified ? <UpdatePage replace /> : <Navigate to='/' replace />} />
+          <Route path='/' element={(user && user?.isVerified) ? <HomePage /> : <LandingPage replace />} />
+
+          <Route path='/signup' element={!user ? <SignUpPage /> : <Navigate to="/" replace />} />
+
+          <Route path='/login' element={!user ? <LoginPage /> : <Navigate to="/" replace />} />
+
+          <Route path='/forgot-password' element={!user ? <ForgotPassword /> : <Navigate to="/" replace />} />
+
+          <Route path='/reset-password/:token' element={!user ? <ResetPassword /> : <Navigate to="/" replace />} />
+
+          <Route path='/how-it-works' element={!user ? <HowItWorksPage /> : <Navigate to="/" replace />} />
+
+          <Route path='/verify-email' element={!user?.isVerified ? <VerifyEmail /> : <Navigate to='/' replace />} />
+
+          <Route path='/create' element={user?.isVerified ? <CreatePage /> : <Navigate to='/' replace />} />
+
+          <Route path='/update' element={user?.isVerified ? <UpdatePage /> : <Navigate to='/' replace />} />
+
           <Route path='*' element={<Navigate to='/' replace />} />
+
         </Routes>
       </Box>
       {user?.isVerified && <Footer />}

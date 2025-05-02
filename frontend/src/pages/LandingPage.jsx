@@ -5,6 +5,7 @@ import { Box, Heading, HStack, Image, Text } from "@chakra-ui/react";
 import { IndianRupee, Pencil, Trash2 } from "lucide-react";
 import { useState, useEffect } from 'react';
 import { applyStyles } from "../utils/applyStyles";
+import Footer from "../components/Footer";
 
 const LandingPage = () => {
 
@@ -200,18 +201,18 @@ const LandingPage = () => {
             </a>
 
             <Box p={4}>
-              <HStack className="flex justify-between">
+              <HStack className="flex justify-between text-gray-500">
                 <div>
                   <Heading as="h3" size="lg" fontWeight={"bold"} mb={2}>
                     {"Premium Wireless Noise-Cancelling Headphones"}
                   </Heading>
 
                   <Text fontWeight="bold" fontSize="xl" mb={4}>
-                    <IndianRupee size={18} style={{display: "inline"}} />
+                    <IndianRupee size={18}  style={{display: "inline"}} />
                     {"15,895.00"}
                   </Text>
 
-                  <p className="description">"Logitech G733 Lightspeed Bluetooth Wireless On Ear Headphones with Mic Gaming with Suspension Headband, Lightsync RGB, Blue Vo!Ce Mic Technology and Pro-G Audio Drivers-White"</p>
+                  <p className="description">Logitech G733 Lightspeed Bluetooth Wireless On Ear Headphones with Mic Gaming with Suspension Headband, Lightsync RGB, Blue Vo!Ce Mic Technology and Pro-G Audio Drivers-White</p>
                 </div>
               </HStack>
               <br />
@@ -279,88 +280,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={applyStyles("footer")}>
-        <div style={applyStyles("footerContainer")}>
-          <div style={applyStyles("footerTop")}>
-            <div style={applyStyles("footerColumn")}>
-              <div style={applyStyles("footerLogo")}>ProductSaver</div>
-              <p style={applyStyles("footerText")}>
-                The smart way to save products now and buy them later when
-                you're ready.
-              </p>
-            </div>
-            <div style={applyStyles("footerColumn")}>
-              <h3 style={applyStyles("footerTitle")}>Product</h3>
-              <ul style={applyStyles("footerLinks")}>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#features" style={applyStyles("footerLinkAnchor")}>
-                    Features
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#examples" style={applyStyles("footerLinkAnchor")}>
-                    Examples
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Pricing
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    FAQ
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div style={applyStyles("footerColumn")}>
-              <h3 style={applyStyles("footerTitle")}>Company</h3>
-              <ul style={applyStyles("footerLinks")}>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    About Us
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Contact
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Blog
-                  </a>
-                </li>
-              </ul>
-            </div>
-            <div style={applyStyles("footerColumn")}>
-              <h3 style={applyStyles("footerTitle")}>Legal</h3>
-              <ul style={applyStyles("footerLinks")}>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Privacy Policy
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Terms of Service
-                  </a>
-                </li>
-                <li style={applyStyles("footerLink")}>
-                  <a href="#" style={applyStyles("footerLinkAnchor")}>
-                    Cookie Policy
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div style={applyStyles("copyright")}>
-            © {new Date().getFullYear()} ProductSaver. All rights reserved.
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 };

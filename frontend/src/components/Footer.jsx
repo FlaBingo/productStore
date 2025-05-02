@@ -41,20 +41,20 @@ const Footer = () => {
             </ul>
           </div>
           <div style={applyStyles("footerColumn")}>
-            <h3 style={applyStyles("footerTitle")}>Company</h3>
+            <h3 style={applyStyles("footerTitle")}>Developer</h3>
             <ul style={applyStyles("footerLinks")}>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
-                  About Us
+                <a href="https://www.linkedin.com/in/satyam-prajapati-m/" target="_blanck" style={applyStyles("footerLinkAnchor")}>
+                  About Me
                 </a>
               </li>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
+                <a href="mailto:satyamm1402@gmail.com" target="_blanck" style={applyStyles("footerLinkAnchor")}>
                   Contact
                 </a>
               </li>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
+                <a href="https://www.satyam.42web.io/" target="_blanck" style={applyStyles("footerLinkAnchor")}>
                   Blog
                 </a>
               </li>
@@ -64,17 +64,18 @@ const Footer = () => {
             <h3 style={applyStyles("footerTitle")}>Legal</h3>
             <ul style={applyStyles("footerLinks")}>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
-                  Privacy Policy
+                <a href="https://github.com/FlaBingo/productStore" target="_blanck" style={applyStyles("footerLinkAnchor")}>
+                  {/* Privacy Policy */}
+                  Source Code
                 </a>
               </li>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
+                <a href="#" target="_blanck" style={applyStyles("footerLinkAnchor")}>
                   Terms of Service
                 </a>
               </li>
               <li style={applyStyles("footerLink")}>
-                <a href="#" style={applyStyles("footerLinkAnchor")}>
+                <a href="#" target="_blanck" style={applyStyles("footerLinkAnchor")}>
                   Cookie Policy
                 </a>
               </li>
@@ -82,7 +83,7 @@ const Footer = () => {
           </div>
         </div>
         <div style={applyStyles("copyright")}>
-          © {new Date().getFullYear()} ProductSaver. All rights reserved.
+          © {new Date().getFullYear()} ProductSaver. All rights reserved.  Satyam Prajapati
         </div>
       </div>
     </footer>
