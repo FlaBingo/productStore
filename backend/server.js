@@ -13,9 +13,7 @@ const PORT = process.env.PORT || 5000;
 
 const __dirname = path.resolve(); // For Production
 app.use(cors({
-    origin: process.env.NODE_ENV === 'production'
-      ? process.env.CLIENT_URL || "http://localhost:5173"
-      : 'http://localhost:5173',
+    origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -27,15 +25,15 @@ app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes)
 
 //For production/Deployment
-if(process.env.NODE_ENV === "production"){
-    app.use(express.static(path.join(__dirname, "/frontend/dist")))
-    app.get("*", (req, res) => {
-        res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
-    })
-}
+// if(process.env.NODE_ENV === "production"){
+//     app.use(express.static(path.join(__dirname, "/frontend/dist")))
+//     app.get("*", (req, res) => {
+//         res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"))
+//     })
+// }
 
 app.get("/", (req, res) => {
-  res.send({
+  res.json({
     success: true
   })
 })
