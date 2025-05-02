@@ -23,6 +23,12 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.json())  //allow us to accept JSON data in the req.body
 app.use("/api/products", productRoutes);
 app.use("/api/auth", authRoutes)
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "It's working!"
+  })
+})
 
 //For production/Deployment
 if (process.env.NODE_ENV === "production") {
@@ -32,11 +38,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-app.get("/", (req, res) => {
-  res.json({
-    success: true
-  })
-})
 
 app.listen(PORT, () => {
     connectDB(); 
