@@ -34,7 +34,7 @@ function App() {
     display: "flex",
     justifyContent: "center", alignItems: "center"
   }}>
-    <Loader size={30} />
+    <Loader size={30} className="animate-spin"/>
   </div>)
 
   return (

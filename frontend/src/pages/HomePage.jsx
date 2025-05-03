@@ -3,7 +3,7 @@ import { useProductStore } from "../store/product";
 import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductCard from "../components/ProductCard";
-import { ShoppingCart } from "lucide-react";
+import { ShoppingCart, Loader } from "lucide-react";
 import Masonry from "react-masonry-css";
 
 function HomePage() {
@@ -15,11 +15,22 @@ function HomePage() {
     500: 1
   }
   
-  const {fetchProducts, products} = useProductStore();
+  const {fetchProducts, products, isLoadingProduct} = useProductStore();
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
 
+  if(isLoadingProduct){
+    return (
+      <div style={{
+        height: "100vh",
+        display: "flex",
+        justifyContent: "center", alignItems: "center"
+      }}>
+        <Loader size={30} className="animate-spin"/>
+      </div>
+    )
+  }
 
   return (
     <Container maxW="container.xl" py={12}>

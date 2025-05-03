@@ -4,6 +4,7 @@ import axiosInstance from "../utils/axiosInstance.js";
 
 export const useProductStore = create((set) => ({
     products: [],
+    isLoadingProduct: false,
 
     setProducts: (products) => set({products}),
 
@@ -19,8 +20,9 @@ export const useProductStore = create((set) => ({
     },
 
     fetchProducts: async () =>{
+        set({isLoadingProduct: true})
         const data = await axiosInstance.get("/products");
-        set({products: data.data?.data});
+        set({products: data.data?.data, isLoadingProduct: false});
     },
 
     deleteProducts: async (pid) => {
