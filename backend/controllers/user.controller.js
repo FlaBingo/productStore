@@ -3,7 +3,7 @@ import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import { sendPasswordResetEmail, sendVerificationEmail } from "../emails/nodemailer.js";
 import crypto from "crypto"
 import { sendError, sendSuccess } from "../utils/handleResponses.js";
-import mongoose from "mongoose";
+import { connectDB } from "../config/db.js";
 
 
 export const signup = async (req, res) => {
@@ -88,9 +88,7 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        if (!mongoose.connection.readyState === 1) {
-            throw new Error('Database not connected');
-        }
+        await connectDB().catch((err)=>res.json({success: false, message: err.message}))
         if(!email || !password){
             return res.json({success: false, message: "All fields are Required"})
         }
