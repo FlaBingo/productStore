@@ -10,8 +10,8 @@ import cors from "cors"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, async (req, res) => {
-    await connectDB().catch((err)=>res.json({success: false, message: err.message}))
+app.listen(PORT, async () => {
+    await connectDB()
     console.log(`Server started at http://localhost:${PORT}`) 
 }) 
 
@@ -29,10 +29,12 @@ app.use(cookieParser())
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())  //allow us to accept JSON data in the req.body
 app.use("/api/products", productRoutes);
-app.use("/api/auth", authRoutes)
-app.get("/", (req, res) => {
-  res.send("backend is working!")
-})
+app.use("/api/auth", async (req, res, next) => {
+  await connectDB().catch((err)=>res.json({success: false, message: err.message}))
+  next();
+}, authRoutes)
+
+
 
 //For production/Deployment
 if (process.env.NODE_ENV === "production") {
