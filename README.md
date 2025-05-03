@@ -181,12 +181,12 @@ Contributions are welcome! Please follow these steps:
    git push origin feature-name
    ```
 5. Open a pull request.
-
+<!-- 
 ---
 
 ## 🛡️ License
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details. -->
 
 ---
 
@@ -194,8 +194,8 @@ This project is licensed under the MIT License. See the LICENSE file for details
 
 - **Author**: Satyam Prajapati
 - **Email**: satyamm1402@gmail.com
-- **LinkedIn**: Satyam Prajapati
-- **Portfolio**: satyam.42web.io
+- **LinkedIn**: [Satyam Prajapati](https://www.linkedin.com/in/satyam-prajapati-m/)
+- **Portfolio**: [satyam.42web.io](https://www.satyam.42web.io/)
 
 ---
 
