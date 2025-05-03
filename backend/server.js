@@ -10,7 +10,7 @@ import cors from "cors"
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
+app.listen(PORT, async (req, res) => {
     await connectDB().catch((err)=>res.json({success: false, message: err.message}))
     console.log(`Server started at http://localhost:${PORT}`) 
 }) 
