@@ -52,6 +52,7 @@ function ProductCard({ product }) {
 
   return (
     <Box 
+    minWidth={"200px"}
       shadow="lg"
       rounded="lg"
       overflow="hidden"
