@@ -1,45 +1,59 @@
 import express from "express";
 import dotenv from "dotenv";
-dotenv.config();
 import { connectDB } from "./config/db.js";
 import productRoutes from "./routes/product.route.js";
 import authRoutes from "./routes/user.route.js"
 import path from "path";
 import cookieParser from "cookie-parser";
-import cors from "cors" 
+import cors from "cors";
+import mongoose from "mongoose"; // Add this
+
+dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, async () => {
-    await connectDB()
-    console.log(`Server started at http://localhost:${PORT}`) 
-}) 
 
-const __dirname = path.resolve(); // For Production
+// Initialize MongoDB connection before anything else
+mongoose.set('strictQuery', false);
+
+// Middleware
 app.use(cors({
     origin: process.env.CLIENT_URL || "http://localhost:5173",
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['set-cookie']
-  }));
+}));
 
+app.use(cookieParser());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(cookieParser())
-app.use(express.urlencoded({extended: true}))
-app.use(express.json())  //allow us to accept JSON data in the req.body
-app.use("/api/products", productRoutes);
+// Connect to MongoDB before routes
+app.use("/api/products", async (req, res, next) => {
+    await connectDB().catch(console.error);
+    next();
+}, productRoutes);
+
 app.use("/api/auth", async (req, res, next) => {
-  await connectDB().catch((err)=>res.json({success: false, message: err.message}))
-  next();
-}, authRoutes)
+    await connectDB().catch(console.error);
+    next();
+}, authRoutes);
 
-
-
-//For production/Deployment
+// Production setup
 if (process.env.NODE_ENV === "production") {
-  app.use(express.static(path.join(__dirname, "../frontend/dist"))); // Adjust path
-  app.get("*", (req, res) => {
-      res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html")); // Adjust path
-  });
+    const __dirname = path.resolve();
+    app.use(express.static(path.join(__dirname, "../frontend/dist")));
+    app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "../frontend/dist", "index.html"));
+    });
 }
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ success: false, message: 'Something broke!' });
+});
+
+// Export the app for Vercel
+export default app;
