@@ -11,6 +11,7 @@
       "src": "/api/(.*)",
       "dest": "/api/index.js",
       "headers": {
+        "Cache-Control": "no-store",
         "Access-Control-Allow-Credentials": "true",
         "Access-Control-Allow-Origin": "https://product-store-frontend-six.vercel.app",
         "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",

@@ -88,7 +88,6 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        // await connectDB().catch((err)=>res.json({success: false, message: err.message}))
         if(!email || !password){
             return res.json({success: false, message: "All fields are Required"})
         }
@@ -129,18 +128,26 @@ export const login = async (req, res) => {
     }
 }
 
-export const logout = (req, res) => {
+export const logout = async (req, res) => {
     try {
-        res.clearCookie("jwt-token");
-        res.status(200).json({success: true, message: "Logged out successfully"})
+        await res.clearCookie("jwt-token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            path: "/"
+        }).catch((err) => (res.json({
+            success: false,
+            message: err.message,
+        })))
+        res.status(200).json({success: true, message: "Logged out successfully"});
     } catch (error) {
-        console.log("Error in logout controller ", error.message)
+        console.log("Error in logout controller ", error.message);
         res.status(500).json({
             success: false,
             message: "Internal server error"
-        })
+        });
     }
-}
+};
 
 export const forgotPassword = async (req, res) => {
     const { email } = req.body;
