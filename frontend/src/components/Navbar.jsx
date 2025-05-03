@@ -11,15 +11,15 @@ import { LogOut, Moon, PackagePlus, Sun } from "lucide-react";
 const Navbar = () => {
 	const { colorMode, toggleColorMode } = useColorMode();
 	const navigate = useNavigate();
-	const {user, logout, message} = useAuthStore();
+	const { user, logout, message } = useAuthStore();
 
 	const handleLogout = async () => {
 		const success = await logout();
-		if(success){
+		if (success) {
 			toast.success("Logged Out Successfully")
-			navigate('/', {replace: true});
+			navigate('/', { replace: true });
 		}
-		else{
+		else {
 			toast.error(message)
 		}
 	}
@@ -27,7 +27,7 @@ const Navbar = () => {
 	return (
 		<Container maxW={"1140px"} px={4} borderBottom={'1px solid #6a7282'}>
 			<Flex
-				
+
 				minH={{
 					base: 20,
 					sm: 16
@@ -47,19 +47,21 @@ const Navbar = () => {
 					fontSize={{ base: "22", sm: "28" }}
 					fontWeight={"bold"}
 					textAlign={"center"}
-          color={"#51a2ff"}
+					color={"#51a2ff"}
 				>
-					<Link to={"/"} id="logo">{user.name.split(" ")[0] || "FlaBingo"}'s Store 🛒</Link>
+					<Link to={"/"} id="logo">
+						{user.name?.charAt(0)?.toUpperCase() + user.name?.slice(1)?.split(" ")[0] || "FlaBingo"}'s Store 🛒
+					</Link>
 				</Text>
 
 				<HStack paddingBottom={{
 					base: 4,
 					sm: 1
 				}}
-				spacing={2} alignItems={"center"}>
+					spacing={2} alignItems={"center"}>
 					<Link to={"/create"}>
 						<Button title="Create">
-						<PackagePlus />
+							<PackagePlus />
 							{/* <PlusSquareIcon fontSize={20} /> */}
 						</Button>
 					</Link>
@@ -67,7 +69,7 @@ const Navbar = () => {
 						{colorMode === "light" ? <Moon /> : <Sun />}
 					</Button>
 					<Button title="LogOut" onClick={handleLogout}>
-					<LogOut />
+						<LogOut />
 					</Button>
 				</HStack>
 			</Flex>
