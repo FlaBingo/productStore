@@ -87,6 +87,17 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
+        // Add this after your connectDB() call
+mongoose.connection.on('error', (err) => {
+    console.error('MongoDB connection error:', err);
+    throw err;
+});
+
+mongoose.connection.on('disconnected', () => {
+    console.log('MongoDB disconnected');
+    throw "MongoDB disconnected"
+});
+
         if(!email || !password){
             return res.json({success: false, message: "All fields are Required"})
         }

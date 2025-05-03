@@ -3,7 +3,7 @@ import mongoose from "mongoose"
 export const connectDB = async () => {
     try {
         const conn = await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 20000, // Timeout after 20s instead of 10s
+            serverSelectionTimeoutMS: 30000, // Timeout after 20s instead of 10s
             socketTimeoutMS: 45000, // Close sockets after 45s
             connectTimeoutMS: 20000, // Give up initial connection after 20s
             maxPoolSize: 50, // Maintain up to 50 socket connections
