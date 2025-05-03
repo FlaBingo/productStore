@@ -1,17 +1,33 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+
+// For Vercel serverless functions, use a cached connection
+let cached = global.mongoose;
+
+if (!cached) {
+    cached = global.mongoose = { conn: null, promise: null };
+}
 
 export const connectDB = async () => {
+    if (cached.conn) return cached.conn;
+
+    if (!cached.promise) {
+        cached.promise = mongoose.connect(process.env.MONGO_URI, {
+            serverSelectionTimeoutMS: 30000,
+            socketTimeoutMS: 45000,
+            connectTimeoutMS: 20000,
+            bufferTimeoutMS: 30000,
+            maxPoolSize: 5,  // Reduce pool size for serverless environments
+            family: 4
+        }).then(mongoose => mongoose);
+    }
+
     try {
-        const conn = await mongoose.connect(process.env.MONGO_URI, {
-            serverSelectionTimeoutMS: 30000, // Timeout after 20s instead of 10s
-            socketTimeoutMS: 45000, // Close sockets after 45s
-            connectTimeoutMS: 20000, // Give up initial connection after 20s
-            maxPoolSize: 50, // Maintain up to 50 socket connections
-            family: 4 // Use IPv4, skip trying IPv6
-        });
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        cached.conn = await cached.promise;
+        console.log(`MongoDB Connected: ${cached.conn.connection.host}`);
     } catch (error) {
         console.error(`Error: ${error.message}`);
         process.exit(1);
     }
-}
+
+    return cached.conn;
+};
