@@ -48,7 +48,7 @@ function HomePage() {
           columnClassName="my-masonry-grid_column"
         >
           {products.map((product, index) => (
-            <ProductCard key={product._id || index} product={product} />
+            <ProductCard key={product._id || index} product={product} isSingleProduct={products.length === 1} />
           ))}
         </Masonry>
 

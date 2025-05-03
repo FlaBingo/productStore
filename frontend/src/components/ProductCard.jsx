@@ -7,7 +7,7 @@ import { toaster } from "./ui/toaster";
 import { formatDate } from "../utils/formatDate.js";
 import { IndianRupee, Pencil, RefreshCw, Trash2 } from "lucide-react";
 
-function ProductCard({ product }) {
+function ProductCard({ product, isSingleProduct}) {
   const { deleteProducts, fetchProducts } = useProductStore();
   const navigate = useNavigate();
 
@@ -52,12 +52,12 @@ function ProductCard({ product }) {
 
   return (
     <Box 
-    minWidth={"240px"}
       shadow="lg"
       rounded="lg"
       overflow="hidden"
       transition="all 0.3s"
       _hover={{ transform: "translateY(-5px)", shadow: "xl" }}
+      minWidth={isSingleProduct ? "300px" : "auto"}
     >
       <a href={product.purchaseLink} target="_blank">
         <Image
