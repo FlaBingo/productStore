@@ -88,7 +88,7 @@ export const verifyEmail = async (req, res) => {
 export const login = async (req, res) => {
     const { email, password } = req.body;
     try {
-        await connectDB().catch((err)=>res.json({success: false, message: err.message}))
+        // await connectDB().catch((err)=>res.json({success: false, message: err.message}))
         if(!email || !password){
             return res.json({success: false, message: "All fields are Required"})
         }
@@ -107,7 +107,10 @@ export const login = async (req, res) => {
         }
 
         // generate token and set the cookie
-        generateTokenSetCookie(res, user._id)
+        await generateTokenSetCookie(res, user._id).catch((err) => res.json({
+            success: false,
+            message: err.message
+        }))
 
         res.status(200).json({
             success: true,
