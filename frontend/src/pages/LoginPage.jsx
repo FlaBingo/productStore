@@ -78,11 +78,11 @@ const LoginPage = () => {
           </div>
           <br />
 
-          <Link to={"/forgot-password"}>
-          <div className="flex items-center underline cursor-pointer">
+          <div className="flex items-center underline">
+          <Link to={"/forgot-password"} className='cursor-pointer'>
             forgot password?
-          </div>
           </Link>
+          </div>
           <div
           style={{
             display:"flex",
