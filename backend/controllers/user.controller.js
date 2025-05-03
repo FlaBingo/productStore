@@ -3,6 +3,7 @@ import { generateTokenSetCookie } from "../utils/generateTokenSetCookie.js";
 import { sendPasswordResetEmail, sendVerificationEmail } from "../emails/nodemailer.js";
 import crypto from "crypto"
 import { sendError, sendSuccess } from "../utils/handleResponses.js";
+import mongoose from "mongoose";
 
 
 export const signup = async (req, res) => {
