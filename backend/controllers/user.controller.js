@@ -4,6 +4,7 @@ import { sendPasswordResetEmail, sendVerificationEmail } from "../emails/nodemai
 import crypto from "crypto"
 import { sendError, sendSuccess } from "../utils/handleResponses.js";
 import { connectDB } from "../config/db.js";
+import jwt from "jsonwebtoken";
 
 
 export const signup = async (req, res) => {
@@ -111,9 +112,15 @@ export const login = async (req, res) => {
             message: err.message
         }))
 
+        // ALSO generate token string for extension
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: "7d" // adjust expiry if needed
+        });
+
         res.status(200).json({
             success: true,
             message: "Logged in Successfully",
+            token,
             user: {
                 ...user._doc,
                 password: undefined
