@@ -20,7 +20,7 @@ mongoose.set('strictQuery', false);
 
 const allowedOrigins = [
   'https://product-store-frontend-six.vercel.app',
-  'chrome-extension://abjmcblfmaojkachceegaflbjcipelkj'
+  'chrome-extension://dojcinnlkepegjnjbhfnhfaknhbidabf'
 ];
 
 // Middleware
